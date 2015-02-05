@@ -52,7 +52,9 @@
 
 #include "utility.h"
 #include "system.h"
-
+#ifdef CHANGED
+#include "synchconsole.h"
+#endif // CHANGED
 
 // External functions used by this file
 
@@ -60,6 +62,9 @@ extern void ThreadTest (void), Copy (const char *unixFile, const char *nachosFil
 extern void Print (char *file), PerformanceTest (void);
 extern void StartProcess (char *file), ConsoleTest (char *in, char *out);
 extern void MailTest (int networkID);
+#ifdef CHANGED
+extern void SynchConsoleTest (char *in, char *out);
+#endif // CHANGED
 
 //----------------------------------------------------------------------
 // main
@@ -114,6 +119,20 @@ main (int argc, char **argv)
 		// Nachos will loop forever waiting 
 		// for console input
 	    }
+	    #ifdef CHANGED
+	   else if (!strcmp (*argv, "-sc"))
+	   {
+	   		if (argc == 1){
+	   			SynchConsoleTest (NULL, NULL); // demarre la consonle sans parametre
+	   		}
+	   		else{
+	   			ASSERT(argc > 2); // Verifie que les paramètres soit present
+	   			SynchConsoleTest (*(argv + 1), *(argv + 2)); //demarre la console avec les parametres fournie
+	   			argCount = 3;
+	   		}
+	   
+	   }
+	   #endif // CHANGED
 #endif // USER_PROGRAM
 #ifdef FILESYS
 	  if (!strcmp (*argv, "-cp"))
